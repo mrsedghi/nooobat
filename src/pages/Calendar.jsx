@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -6,24 +7,24 @@ import {
   Avatar,
   Chip,
   Fab,
+  Divider,
 } from "@mui/material";
 import {
   ChevronLeft,
   ChevronRight,
   Add,
   Event,
-  Person,
   AccessTime,
+  Person,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import NavButton from "../components/NavButton";
-import { useState } from "react";
 
 const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
-  // Mock booked visits data
-  const bookedVisits = [
+  // Initialize state properly
+  const [bookedVisits, setBookedVisits] = useState([
     {
       id: 1,
       customerName: "محمد رضایی",
@@ -51,23 +52,46 @@ const Calendar = () => {
       status: "تایید شده",
       avatarColor: "secondary.main",
     },
-  ];
+  ]);
 
-  // Get today's visits
+  // Create new arrays when filtering to avoid mutation
   const todayVisits = bookedVisits.filter(
-    (visit) => visit.date === "1402/05/15" // Replace with current date logic
+    (visit) => visit.date === "1402/05/15" // In real app, use current date
   );
 
-  // Get tomorrow's visits
   const tomorrowVisits = bookedVisits.filter(
-    (visit) => visit.date === "1402/05/16" // Replace with current date + 1 logic
+    (visit) => visit.date === "1402/05/16" // In real app, use current date + 1
   );
 
-  // Format date to Persian
+  // Safe date formatting
   const formatPersianDate = (date) => {
-    // In a real app, use a library like moment-jalaali
-    return "پانزدهم خرداد ۱۴۰۲";
+    // In production, use a library like moment-jalaali
+    const options = {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    };
+    return new Intl.DateTimeFormat("fa-IR", options).format(date);
   };
+
+  // Safe date navigation
+  const changeDate = (days) => {
+    const newDate = new Date(currentDate);
+    newDate.setDate(newDate.getDate() + days);
+    setCurrentDate(newDate);
+  };
+
+  // Days of week in Persian
+  const persianDays = [
+    "شنبه",
+    "یکشنبه",
+    "دوشنبه",
+    "سه‌شنبه",
+    "چهارشنبه",
+    "پنجشنبه",
+    "جمعه",
+  ];
 
   return (
     <Box
@@ -95,8 +119,7 @@ const Calendar = () => {
         }}
       >
         <IconButton
-          component={Link}
-          to="/main"
+          onClick={() => changeDate(-1)}
           sx={{ color: "primary.contrastText" }}
         >
           <ChevronLeft fontSize="medium" />
@@ -109,17 +132,15 @@ const Calendar = () => {
           <Typography variant="body2">تقویم نوبت‌ها</Typography>
         </Box>
 
-        <Box>
-          <IconButton sx={{ color: "primary.contrastText" }}>
-            <ChevronLeft fontSize="medium" />
-          </IconButton>
-          <IconButton sx={{ color: "primary.contrastText" }}>
-            <ChevronRight fontSize="medium" />
-          </IconButton>
-        </Box>
+        <IconButton
+          onClick={() => changeDate(1)}
+          sx={{ color: "primary.contrastText" }}
+        >
+          <ChevronRight fontSize="medium" />
+        </IconButton>
       </Box>
 
-      {/* Calendar Navigation */}
+      {/* Week Navigation */}
       <Box
         sx={{
           display: "flex",
@@ -129,25 +150,17 @@ const Calendar = () => {
           borderColor: "divider",
         }}
       >
-        {[
-          "شنبه",
-          "یکشنبه",
-          "دوشنبه",
-          "سه‌شنبه",
-          "چهارشنبه",
-          "پنجشنبه",
-          "جمعه",
-        ].map((day, index) => (
-          <Box key={index} sx={{ textAlign: "center" }}>
+        {persianDays.map((day, index) => (
+          <Box key={day} sx={{ textAlign: "center" }}>
             <Typography variant="body2">{day}</Typography>
             <Typography
               variant="body2"
               sx={{
-                fontWeight: index === 2 ? "bold" : "normal",
-                color: index === 2 ? "primary.main" : "text.primary",
+                fontWeight: index === 3 ? "bold" : "normal",
+                color: index === 3 ? "primary.main" : "text.primary",
               }}
             >
-              {index + 10}
+              {15 + index - 3} {/* Example dates */}
             </Typography>
           </Box>
         ))}
@@ -242,8 +255,10 @@ const Calendar = () => {
         )}
       </Box>
 
+      <Divider sx={{ my: 3, mx: 2 }} />
+
       {/* Tomorrow's Visits */}
-      <Box sx={{ px: 2, mt: 4 }}>
+      <Box sx={{ px: 2, mt: 2 }}>
         <Typography
           variant="subtitle1"
           sx={{
@@ -334,6 +349,26 @@ const Calendar = () => {
           </Paper>
         )}
       </Box>
+
+      {/* Floating Action Button */}
+      <Fab
+        color="primary"
+        sx={{
+          position: "fixed",
+          bottom: 90,
+          right: 20,
+          bgcolor: "primary.main",
+          "&:hover": {
+            bgcolor: "primary.dark",
+            transform: "scale(1.05)",
+          },
+          transition: "all 0.2s",
+        }}
+        component={Link}
+        to="/add-booking"
+      >
+        <Add sx={{ fontSize: 28 }} />
+      </Fab>
 
       {/* Bottom Navigation */}
       <NavButton />
