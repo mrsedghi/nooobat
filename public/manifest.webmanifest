@@ -1,10 +1,10 @@
 {
-  "name": "Gem Club",
-  "short_name": "Gem Club App",
+  "name": "نوبت",
+  "short_name": "Nooobat app",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#FF2D2D",
+  "theme_color": "#5D3FD3",
   "icons": [
     {
       "src": "pwa-192x192.png",
