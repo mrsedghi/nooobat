@@ -22,7 +22,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import NavButton from "../components/NavButton";
 
-function MainPage() {
+function Home() {
   // Mock data
   const smsBalance = 42;
   const bookings = 128;
@@ -306,4 +306,4 @@ function MainPage() {
   );
 }
 
-export default MainPage;
+export default Home;

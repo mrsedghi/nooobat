@@ -2,8 +2,9 @@ import { createBrowserRouter } from "react-router-dom";
 import Splash from "./components/spalsh/Splash";
 import VerifyPhone from "./auth/VerifyPhone";
 import Login from "./auth/Login";
-import MainPage from "./mainPage";
-import MenuItem from "./components/MenuItem";
+import SearchCustomers from "./pages/SearchCustomers";
+import Calendar from "./pages/Calendar";
+import Home from "./pages/Home";
 
 const routes = createBrowserRouter([
   {
@@ -20,11 +21,16 @@ const routes = createBrowserRouter([
   },
   {
     path: "/main",
-    element: <MainPage />,
+    element: <Home />,
+  },
+
+  {
+    path: "/search",
+    element: <SearchCustomers />,
   },
   {
-    path: "/item",
-    element: <MenuItem />,
+    path: "/calendar",
+    element: <Calendar />,
   },
 ]);
 
