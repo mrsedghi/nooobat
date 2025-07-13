@@ -5,30 +5,63 @@ export const lightTheme = createTheme({
   direction: "rtl",
   typography: {
     fontFamily: "Peyda-Reg",
-    allVariants: { color: "#1a1a1a" },
+    allVariants: { color: "#2D3748" }, // Dark gray for better readability
   },
   palette: {
     mode: "light",
-    primary: { main: "#5D3FD3" }, // Deep royal purple
-    secondary: { main: "#D4AF37" }, // Metallic gold
-    background: { default: "#FFFFFF", paper: "#F5F5F5" },
+    primary: {
+      main: "#FF6B6B", // Soft coral
+      contrastText: "#FFFFFF",
+    },
+    secondary: {
+      main: "#FF9E7D", // Peach
+      contrastText: "#FFFFFF",
+    },
+    background: {
+      default: "#F8F9FA", // Very light gray
+      paper: "#FFFFFF",
+    },
+    text: {
+      primary: "#2D3748",
+      secondary: "#4A5568",
+    },
   },
   components: {
     MuiAppBar: {
       styleOverrides: {
         root: {
           backgroundColor: "#FFFFFF",
-          color: "#5D3FD3", // Purple text
-          borderBottom: "1px solid #D4AF37", // Gold accent
+          color: "#FF6B6B",
+          boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+          borderBottom: "1px solid rgba(255, 158, 125, 0.3)", // Subtle peach border
         },
       },
     },
     MuiLink: {
       styleOverrides: {
         root: {
-          color: "#673147", // Plum purple
+          color: "#E56B6F", // Soft coral
+          textDecoration: "none",
+          fontWeight: 500,
           "&:hover": {
-            color: "#5D3FD3", // Royal purple on hover
+            color: "#FF9E7D", // Peach on hover
+            textDecoration: "underline",
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px",
+          textTransform: "none",
+          fontWeight: 500,
+          padding: "8px 16px",
+        },
+        contained: {
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "none",
           },
         },
       },
@@ -40,30 +73,63 @@ export const darkTheme = createTheme({
   direction: "rtl",
   typography: {
     fontFamily: "Peyda-Reg",
-    allVariants: { color: "#F5F5F5" },
+    allVariants: { color: "#E2E8F0" }, // Light gray for better readability
   },
   palette: {
     mode: "dark",
-    primary: { main: "#9B59B6" }, // Amethyst purple
-    secondary: { main: "#E0BFB8" }, // Rose gold
-    background: { default: "#121212", paper: "#1E1E1E" },
+    primary: {
+      main: "#FF9E7D", // Peach
+      contrastText: "#1A202C",
+    },
+    secondary: {
+      main: "#FEB2B2", // Light salmon
+      contrastText: "#1A202C",
+    },
+    background: {
+      default: "#1A202C", // Deep navy
+      paper: "#2D3748",
+    },
+    text: {
+      primary: "#E2E8F0",
+      secondary: "#CBD5E0",
+    },
   },
   components: {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: "#1A1A1A",
-          color: "#9B59B6", // Amethyst text
-          borderBottom: "1px solid #E0BFB8", // Rose gold accent
+          backgroundColor: "#2D3748",
+          color: "#FF9E7D",
+          boxShadow: "none",
+          borderBottom: "1px solid rgba(254, 178, 178, 0.2)", // Subtle salmon border
         },
       },
     },
     MuiLink: {
       styleOverrides: {
         root: {
-          color: "#B57EDC", // Soft lavender
+          color: "#FEB2B2", // Light salmon
+          textDecoration: "none",
+          fontWeight: 500,
           "&:hover": {
-            color: "#9B59B6", // Amethyst on hover
+            color: "#FF9E7D", // Peach on hover
+            textDecoration: "underline",
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "8px",
+          textTransform: "none",
+          fontWeight: 500,
+          padding: "8px 16px",
+        },
+        contained: {
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "none",
           },
         },
       },

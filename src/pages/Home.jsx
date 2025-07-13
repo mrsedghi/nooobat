@@ -29,8 +29,8 @@ function Home() {
   const customers = 89;
   const photos = [
     { id: 1, url: "https://picsum.photos/300/200" },
-    { id: 2, url: "https://picsum.photos/300/200" },
-    { id: 3, url: "https://picsum.photos/300/200" },
+    { id: 2, url: "https://picsum.photos/300/300" },
+    { id: 3, url: "https://picsum.photos/300/400" },
   ];
 
   return (
@@ -48,13 +48,13 @@ function Home() {
         sx={{
           p: 2,
           bgcolor: "primary.main",
-          color: "primary.contrastText",
+          color: "white", // Force white text for better contrast
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           position: "relative",
-
           boxShadow: 2,
+          backgroundImage: "linear-gradient(135deg, #FF7E67 0%, #FF9E7D 100%)", // Gradient for depth
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: "0.5rem " }}>
@@ -222,7 +222,6 @@ function Home() {
             size="small"
             sx={{
               boxShadow: "none",
-              background: "linear-gradient(45deg, #5D3FD3, #7D5BFF)",
             }}
           >
             <ChevronLeft />
