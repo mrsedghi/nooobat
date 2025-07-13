@@ -341,14 +341,6 @@ function SearchCustomers() {
                   }}
                 />
               ),
-              sx: {
-                py: 1,
-                "& fieldset": { border: "none" },
-                "& input::placeholder": {
-                  opacity: 0.8,
-                  fontSize: "0.9rem",
-                },
-              },
             }}
           />
         </Paper>
