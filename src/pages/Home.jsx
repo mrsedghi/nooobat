@@ -7,6 +7,7 @@ import {
   Fab,
   Chip,
   Avatar,
+  useTheme,
 } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
@@ -23,6 +24,8 @@ import "swiper/css/pagination";
 import NavButton from "../components/NavButton";
 
 function Home() {
+  const theme = useTheme();
+
   // Mock data
   const smsBalance = 42;
   const bookings = 128;
@@ -47,38 +50,60 @@ function Home() {
       <Box
         sx={{
           p: 2,
+          px: 3,
           bgcolor: "primary.main",
-          color: "white", // Force white text for better contrast
+          background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+          color: "primary.contrastText",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          borderBottomLeftRadius: 16,
+          borderBottomRightRadius: 16,
+          boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
           position: "relative",
-          boxShadow: 2,
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: "0.5rem " }}>
+        {/* Profile */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
           <Avatar
             src="https://randomuser.me/api/portraits/men/1.jpg"
-            sx={{ width: 40, height: 40, mr: 1.5 }}
+            sx={{
+              width: 44,
+              height: 44,
+              border: "2px solid white",
+              boxShadow: "0 0 0 2px rgba(255,255,255,0.4)",
+            }}
           />
-          <Box>
-            <Typography variant="subtitle2" sx={{ lineHeight: 1 }}>
-              محمد رضایی
-            </Typography>
-          </Box>
+          <Typography variant="subtitle1" fontWeight="500">
+            محمد رضایی
+          </Typography>
         </Box>
 
-        <Typography variant="h6" fontWeight="bold">
+        {/* Center Title */}
+        <Typography
+          variant="h6"
+          fontWeight="bold"
+          sx={{
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+            whiteSpace: "nowrap",
+          }}
+        >
           نوبت
         </Typography>
 
+        {/* SMS Balance Chip */}
         <Chip
           label={`${smsBalance} پیامک`}
           size="small"
-          variant="outlined"
+          variant="filled"
           sx={{
-            color: "text.primary",
+            bgcolor: "rgba(255, 255, 255, 0.2)",
+            color: "white",
             fontWeight: "bold",
+            px: 1,
+            backdropFilter: "blur(4px)",
           }}
         />
       </Box>

@@ -14,6 +14,8 @@ import {
   IconButton,
   ButtonGroup,
   Button,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import {
   DarkMode,
@@ -37,6 +39,10 @@ const Settings = () => {
       : "light";
 
   const getStoredMode = () => localStorage.getItem("theme") || "auto";
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // "success", "error", etc.
 
   const [mode, setMode] = useState(getStoredMode());
   const [activeSessions] = useState([
@@ -82,10 +88,14 @@ const Settings = () => {
         }
       }
 
-      alert("حافظه موقت با موفقیت پاک شد");
+      setSnackbarMessage("حافظه موقت با موفقیت پاک شد");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     } catch (err) {
       console.error("خطا در پاکسازی کش", err);
-      alert("خطا در پاکسازی کش");
+      setSnackbarMessage("خطا در پاکسازی کش");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
     }
   };
 
@@ -374,6 +384,23 @@ const Settings = () => {
       </List>
 
       <NavButton />
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackbarOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        sx={{ mt: 2 }}
+      >
+        <Alert
+          severity={snackbarSeverity}
+          variant="filled"
+          sx={{ width: "100%", fontWeight: "bold", borderRadius: 2 }}
+          onClose={() => setSnackbarOpen(false)}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

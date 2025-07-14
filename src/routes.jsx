@@ -6,6 +6,7 @@ import SearchCustomers from "./pages/SearchCustomers";
 import Calendar from "./pages/Calendar";
 import Home from "./pages/Home";
 import Settings from "./pages/Setting";
+import AddCustomer from "./pages/AddCustomer";
 
 const routes = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const routes = createBrowserRouter([
   {
     path: "/settings",
     element: <Settings />,
+  },
+  {
+    path: "/add-customer",
+    element: <AddCustomer />,
   },
 ]);
 
