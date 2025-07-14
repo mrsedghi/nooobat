@@ -118,24 +118,20 @@ const Calendar = () => {
           boxShadow: 3,
         }}
       >
-        <IconButton
-          onClick={() => changeDate(-1)}
-          sx={{ color: "primary.contrastText" }}
-        >
+        <IconButton onClick={() => changeDate(-1)} sx={{ color: "#fff" }}>
           <ChevronLeft fontSize="medium" />
         </IconButton>
 
         <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+          <Typography variant="h6" sx={{ fontWeight: "bold", color: "#fff" }}>
             {formatPersianDate(currentDate)}
           </Typography>
-          <Typography variant="body2">تقویم نوبت‌ها</Typography>
+          <Typography variant="body2" sx={{ color: "#fff" }}>
+            تقویم نوبت‌ها
+          </Typography>
         </Box>
 
-        <IconButton
-          onClick={() => changeDate(1)}
-          sx={{ color: "primary.contrastText" }}
-        >
+        <IconButton onClick={() => changeDate(1)} sx={{ color: "#fff" }}>
           <ChevronRight fontSize="medium" />
         </IconButton>
       </Box>
@@ -152,7 +148,15 @@ const Calendar = () => {
       >
         {persianDays.map((day, index) => (
           <Box key={day} sx={{ textAlign: "center" }}>
-            <Typography variant="body2">{day}</Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                fontWeight: index === 3 ? "bold" : "normal",
+                color: index === 3 ? "primary.main" : "text.primary",
+              }}
+            >
+              {day}
+            </Typography>
             <Typography
               variant="body2"
               sx={{
@@ -197,7 +201,7 @@ const Calendar = () => {
                 },
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                 <Avatar
                   sx={{
                     bgcolor: visit.avatarColor,
@@ -290,7 +294,7 @@ const Calendar = () => {
                 },
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                 <Avatar
                   sx={{
                     bgcolor: visit.avatarColor,
@@ -349,26 +353,6 @@ const Calendar = () => {
           </Paper>
         )}
       </Box>
-
-      {/* Floating Action Button */}
-      <Fab
-        color="primary"
-        sx={{
-          position: "fixed",
-          bottom: 90,
-          right: 20,
-          bgcolor: "primary.main",
-          "&:hover": {
-            bgcolor: "primary.dark",
-            transform: "scale(1.05)",
-          },
-          transition: "all 0.2s",
-        }}
-        component={Link}
-        to="/add-booking"
-      >
-        <Add sx={{ fontSize: 28 }} />
-      </Fab>
 
       {/* Bottom Navigation */}
       <NavButton />

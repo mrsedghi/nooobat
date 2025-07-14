@@ -54,7 +54,6 @@ function Home() {
           alignItems: "center",
           position: "relative",
           boxShadow: 2,
-          backgroundImage: "linear-gradient(135deg, #FF7E67 0%, #FF9E7D 100%)", // Gradient for depth
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: "0.5rem " }}>
@@ -76,8 +75,8 @@ function Home() {
         <Chip
           label={`${smsBalance} پیامک`}
           size="small"
+          variant="outlined"
           sx={{
-            bgcolor: "secondary.main",
             color: "text.primary",
             fontWeight: "bold",
           }}
@@ -224,7 +223,7 @@ function Home() {
               boxShadow: "none",
             }}
           >
-            <ChevronLeft />
+            <ChevronLeft sx={{ color: "#fff" }} />
           </Fab>
         </Paper>
       </Box>
@@ -257,7 +256,7 @@ function Home() {
                 margin: "0 auto 12px",
               }}
             >
-              <School sx={{ color: "primary.main", fontSize: 24 }} />
+              <School sx={{ color: "#fff", fontSize: 24 }} />
             </Box>
             <Typography variant="subtitle2" fontWeight="medium">
               راهنمای اپ
@@ -290,7 +289,7 @@ function Home() {
                 margin: "0 auto 12px",
               }}
             >
-              <Support sx={{ color: "primary.main", fontSize: 24 }} />
+              <Support sx={{ color: "#fff", fontSize: 24 }} />
             </Box>
             <Typography variant="subtitle2" fontWeight="medium">
               پشتیبانی

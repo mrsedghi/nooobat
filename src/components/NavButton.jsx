@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   BottomNavigation,
   BottomNavigationAction,
@@ -13,7 +13,6 @@ import {
 import {
   Home as HomeIcon,
   Settings as SettingsIcon,
-  Person as PersonIcon,
   Add as AddIcon,
   CalendarToday as CalendarIcon,
   Search as SearchIcon,
@@ -26,7 +25,7 @@ const StyledBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
   position: "fixed",
   zIndex: 50,
   width: "100%",
-  height: "4rem",
+  height: "4.5rem",
   maxWidth: "28rem",
   left: "50%",
   transform: "translateX(-50%)",
@@ -34,6 +33,7 @@ const StyledBottomNavigation = styled(BottomNavigation)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   border: `1px solid ${theme.palette.divider}`,
   borderRadius: "9999px",
+  boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
 }));
 
 const NavigationContainer = styled("div")({
@@ -50,8 +50,19 @@ const CenterFabContainer = styled("div")({
   justifyContent: "center",
 });
 
+const ActiveIndicator = styled("div")(({ theme }) => ({
+  position: "absolute",
+  top: -8,
+  width: "4px",
+  height: "4px",
+  borderRadius: "50%",
+  backgroundColor: theme.palette.primary.main,
+  transition: "all 0.3s ease",
+}));
+
 function NavButton() {
   const theme = useTheme();
+  const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -63,6 +74,8 @@ function NavButton() {
     setAnchorEl(null);
   };
 
+  const isActive = (path) => location.pathname.includes(path);
+
   return (
     <>
       <StyledBottomNavigation>
@@ -71,8 +84,21 @@ function NavButton() {
             <BottomNavigationAction
               component={Link}
               to="/main"
-              icon={<HomeIcon />}
+              icon={
+                <>
+                  {isActive("/main") && <ActiveIndicator />}
+                  <HomeIcon
+                    sx={{
+                      color: isActive("/main")
+                        ? theme.palette.primary.main
+                        : theme.palette.text.secondary,
+                      transition: "color 0.3s ease",
+                    }}
+                  />
+                </>
+              }
               sx={{
+                position: "relative",
                 "&:hover": {
                   backgroundColor: theme.palette.action.hover,
                 },
@@ -84,8 +110,21 @@ function NavButton() {
             <BottomNavigationAction
               component={Link}
               to="/calendar"
-              icon={<CalendarIcon />}
+              icon={
+                <>
+                  {isActive("/calendar") && <ActiveIndicator />}
+                  <CalendarIcon
+                    sx={{
+                      color: isActive("/calendar")
+                        ? theme.palette.primary.main
+                        : theme.palette.text.secondary,
+                      transition: "color 0.3s ease",
+                    }}
+                  />
+                </>
+              }
               sx={{
+                position: "relative",
                 "&:hover": {
                   backgroundColor: theme.palette.action.hover,
                 },
@@ -100,12 +139,16 @@ function NavButton() {
                 size="medium"
                 onClick={handleClick}
                 sx={{
+                  background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                   "&:hover": {
-                    backgroundColor: theme.palette.primary.dark,
+                    transform: "scale(1.1)",
+                    boxShadow: `0 6px 16px ${theme.palette.primary.light}`,
                   },
+                  transition: "all 0.3s ease",
                 }}
               >
-                <AddIcon />
+                <AddIcon sx={{ color: "white" }} />
               </Fab>
             </Tooltip>
           </CenterFabContainer>
@@ -114,8 +157,21 @@ function NavButton() {
             <BottomNavigationAction
               component={Link}
               to="/search"
-              icon={<SearchIcon />}
+              icon={
+                <>
+                  {isActive("/search") && <ActiveIndicator />}
+                  <SearchIcon
+                    sx={{
+                      color: isActive("/search")
+                        ? theme.palette.primary.main
+                        : theme.palette.text.secondary,
+                      transition: "color 0.3s ease",
+                    }}
+                  />
+                </>
+              }
               sx={{
+                position: "relative",
                 "&:hover": {
                   backgroundColor: theme.palette.action.hover,
                 },
@@ -127,8 +183,21 @@ function NavButton() {
             <BottomNavigationAction
               component={Link}
               to="/settings"
-              icon={<SettingsIcon />}
+              icon={
+                <>
+                  {isActive("/settings") && <ActiveIndicator />}
+                  <SettingsIcon
+                    sx={{
+                      color: isActive("/settings")
+                        ? theme.palette.primary.main
+                        : theme.palette.text.secondary,
+                      transition: "color 0.3s ease",
+                    }}
+                  />
+                </>
+              }
               sx={{
+                position: "relative",
                 "&:hover": {
                   backgroundColor: theme.palette.action.hover,
                 },
@@ -148,30 +217,66 @@ function NavButton() {
           elevation: 0,
           sx: {
             overflow: "visible",
-            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            filter: "drop-shadow(0px 2px 12px rgba(0,0,0,0.2))",
             mt: -2,
+            borderRadius: "12px",
             "& .MuiAvatar-root": {
               width: 32,
               height: 32,
               ml: -0.5,
               mr: 1,
             },
+            "&:before": {
+              content: '""',
+              display: "block",
+              position: "absolute",
+              top: 0,
+              right: "50%",
+              transform: "translateX(50%)",
+              width: 10,
+              height: 10,
+              bgcolor: "background.paper",
+              transform: "rotate(45deg)",
+              zIndex: 0,
+            },
           },
         }}
         transformOrigin={{ horizontal: "center", vertical: "bottom" }}
         anchorOrigin={{ horizontal: "center", vertical: "top" }}
       >
-        <MenuItem component={Link} to="/add-customer">
+        <MenuItem
+          component={Link}
+          to="/add-customer"
+          sx={{
+            "&:hover": {
+              backgroundColor: theme.palette.primary.light + "20",
+            },
+          }}
+        >
           <ListItemIcon>
-            <CustomerIcon fontSize="small" />
+            <CustomerIcon
+              fontSize="small"
+              sx={{ color: theme.palette.primary.main }}
+            />
           </ListItemIcon>
-          افزودن مشتری{" "}
+          افزودن مشتری
         </MenuItem>
-        <MenuItem component={Link} to="/add-booking">
+        <MenuItem
+          component={Link}
+          to="/add-booking"
+          sx={{
+            "&:hover": {
+              backgroundColor: theme.palette.primary.light + "20",
+            },
+          }}
+        >
           <ListItemIcon>
-            <BookingIcon fontSize="small" />
+            <BookingIcon
+              fontSize="small"
+              sx={{ color: theme.palette.primary.main }}
+            />
           </ListItemIcon>
-          افزودن نوبت{" "}
+          افزودن نوبت
         </MenuItem>
       </Menu>
     </>

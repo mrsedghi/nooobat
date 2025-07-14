@@ -331,6 +331,23 @@ function SearchCustomers() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="نام یا شماره مشتری..."
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "none", // Remove default border
+                  outline: "none",
+                },
+                "&:hover fieldset": {
+                  border: "none", // Remove border on hover
+                  outline: "none",
+                },
+                "&.Mui-focused fieldset": {
+                  border: "none", // Remove border when focused
+                  boxShadow: "0 0 0 2px rgba(93, 63, 211, 0.2)", // Add custom focus indicator
+                  outline: "none",
+                },
+              },
+            }}
             InputProps={{
               startAdornment: (
                 <Search
@@ -341,6 +358,9 @@ function SearchCustomers() {
                   }}
                 />
               ),
+              style: {
+                borderRadius: "8px", // Add border radius
+              },
             }}
           />
         </Paper>
@@ -408,7 +428,7 @@ function SearchCustomers() {
               }}
               onClick={() => handleCustomerClick(customer)}
             >
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                 <Avatar
                   sx={{
                     bgcolor: customer.avatarColor,
@@ -423,7 +443,13 @@ function SearchCustomers() {
                   {customer.name.charAt(0)}
                 </Avatar>
                 <Box sx={{ flexGrow: 1 }}>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                    }}
+                  >
                     <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
                       {customer.name}
                     </Typography>

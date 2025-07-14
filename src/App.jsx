@@ -1,45 +1,44 @@
-// src/App.jsx
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import { prefixer } from "stylis";
 import rtlPlugin from "stylis-plugin-rtl";
-import { ThemeProvider, CssBaseline, IconButton } from "@mui/material";
-import { Brightness4, Brightness7 } from "@mui/icons-material"; // Icons for toggle
+import { ThemeProvider, CssBaseline } from "@mui/material";
 import { RouterProvider } from "react-router-dom";
 import routes from "./routes";
-import { lightTheme, darkTheme } from "./themeConfig"; // Import themes
+import { lightTheme, darkTheme } from "./themeConfig";
 
-// RTL Cache setup
+// RTL Cache
 const cacheRtl = createCache({
   key: "muirtl",
   stylisPlugins: [prefixer, rtlPlugin],
 });
 
-function App() {
-  const [mode, setMode] = useState("dark"); // Default: dark
+const getSystemTheme = () =>
+  window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
-  const toggleMode = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
-  };
+const getStoredMode = () => localStorage.getItem("theme") || "auto";
+
+function App() {
+  const [mode, setMode] = useState(getStoredMode());
+
+  const getEffectiveMode = () => (mode === "auto" ? getSystemTheme() : mode);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const listener = () => {
+      if (getStoredMode() === "auto") setMode("auto");
+    };
+    mediaQuery.addEventListener("change", listener);
+    return () => mediaQuery.removeEventListener("change", listener);
+  }, []);
 
   return (
     <CacheProvider value={cacheRtl}>
-      <ThemeProvider theme={mode === "light" ? lightTheme : darkTheme}>
+      <ThemeProvider
+        theme={getEffectiveMode() === "light" ? lightTheme : darkTheme}
+      >
         <CssBaseline />
-        {/* Beautiful icon toggle (top-right corner) */}
-        <IconButton
-          onClick={toggleMode}
-          color="inherit"
-          sx={{
-            position: "fixed",
-            top: 16,
-            left: 16, // RTL adjustment (right in LTR)
-            zIndex: 55,
-          }}
-        >
-          {mode === "dark" ? <Brightness7 /> : <Brightness4 />}
-        </IconButton>
         <RouterProvider router={routes} />
       </ThemeProvider>
     </CacheProvider>
