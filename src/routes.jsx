@@ -7,6 +7,7 @@ import Calendar from "./pages/Calendar";
 import Home from "./pages/Home";
 import Settings from "./pages/Setting";
 import AddCustomer from "./pages/AddCustomer";
+import BookingPage from "./pages/Booking";
 
 const routes = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const routes = createBrowserRouter([
   {
     path: "/add-customer",
     element: <AddCustomer />,
+  },
+  {
+    path: "/add-booking",
+    element: <BookingPage />,
   },
 ]);
 

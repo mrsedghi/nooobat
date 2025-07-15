@@ -10,7 +10,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 import {
   Sms,
   People,
@@ -31,9 +31,12 @@ function Home() {
   const bookings = 128;
   const customers = 89;
   const photos = [
-    { id: 1, url: "https://picsum.photos/300/200" },
-    { id: 2, url: "https://picsum.photos/300/300" },
-    { id: 3, url: "https://picsum.photos/300/400" },
+    { id: 1, url: "https://picsum.photos/500/201/" },
+    { id: 2, url: "https://picsum.photos/500/202/" },
+    { id: 4, url: "https://picsum.photos/500/203/" },
+    { id: 3, url: "https://picsum.photos/500/204/" },
+    { id: 5, url: "https://picsum.photos/500/205/" },
+    { id: 6, url: "https://picsum.photos/500/206/" },
   ];
 
   return (
@@ -111,12 +114,20 @@ function Home() {
       {/* Photo Slider with 12px border radius */}
       <Box sx={{ px: 2, mt: 3, mb: 2 }}>
         <Swiper
-          modules={[Pagination]}
-          spaceBetween={10}
+          modules={[EffectCoverflow, Pagination]}
+          effect="coverflow"
+          grabCursor={true}
+          centeredSlides={true}
           slidesPerView={1.2}
-          centeredSlides
-          pagination={{ clickable: true }}
           initialSlide={1}
+          pagination={{ clickable: true }}
+          coverflowEffect={{
+            rotate: 30,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
           style={{
             borderRadius: "12px",
             overflow: "hidden",
