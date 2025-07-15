@@ -13,6 +13,7 @@ import {
   Avatar,
   Divider,
   Chip,
+  ListItemIcon,
 } from "@mui/material";
 import {
   PersonAdd,
@@ -24,7 +25,7 @@ import {
   Person,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import NavButton from "../components/NavButton";
 
 const AddCustomer = () => {
@@ -76,6 +77,51 @@ const AddCustomer = () => {
     console.log("Importing contacts:", selectedContacts);
     // Add your API call here
     setSelectedContacts([]);
+  };
+
+  const handleImportFromPhone = useCallback(async () => {
+    try {
+      // Check if the Contacts API is available
+      if ("contacts" in navigator && "ContactsManager" in window) {
+        const props = ["name", "tel"];
+        const opts = { multiple: true };
+
+        const contacts = await navigator.contacts.select(props, opts);
+
+        if (contacts && contacts.length > 0) {
+          const formattedContacts = contacts.map((contact, index) => ({
+            id: Date.now() + index,
+            name: contact.name ? contact.name.join(" ") : "نامشخص",
+            phone: contact.tel ? contact.tel[0] : "بدون شماره",
+          }));
+
+          setContacts((prev) => [...formattedContacts, ...prev]);
+          alert(`تعداد ${formattedContacts.length} مخاطب با موفقیت وارد شد`);
+        }
+      } else {
+        // Fallback for browsers that don't support the Contacts API
+        alert(
+          "وارد کردن مخاطبین در این مرورگر پشتیبانی نمی‌شود. لطفاً از مرورگر دیگری استفاده کنید."
+        );
+      }
+    } catch (error) {
+      console.error("Error accessing contacts:", error);
+      alert("خطا در دسترسی به مخاطبین. لطفاً مجوزهای لازم را بررسی کنید.");
+    }
+  }, []);
+
+  const handleVCardImport = (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const vCardData = e.target.result;
+      // In a real app, you would parse the vCard data here
+      console.log("vCard data:", vCardData);
+      alert("فایل مخاطبین دریافت شد. در نسخه‌های بعدی پشتیبانی خواهد شد.");
+    };
+    reader.readAsText(file);
   };
 
   return (
@@ -257,52 +303,47 @@ const AddCustomer = () => {
               overflow: "hidden",
             }}
           >
-            <List sx={{ p: 0 }}>
-              {contacts.map((contact) => (
-                <ListItem
-                  key={contact.id}
-                  button
-                  onClick={() => handleContactSelect(contact)}
-                  sx={{
-                    borderBottom: "1px solid",
-                    borderColor: "divider",
-                    bgcolor: selectedContacts.some((c) => c.id === contact.id)
-                      ? "primary.light"
-                      : "background.paper",
-                  }}
-                >
-                  <Avatar sx={{ bgcolor: "primary.main", mr: 2 }}>
-                    <Person />
-                  </Avatar>
-                  <ListItemText
-                    primary={contact.name}
-                    secondary={contact.phone}
-                    primaryTypographyProps={{ fontWeight: "medium" }}
-                  />
-                  {selectedContacts.some((c) => c.id === contact.id) && (
-                    <Check color="primary" />
-                  )}
-                </ListItem>
-              ))}
-            </List>
+            <Box sx={{ p: 2 }}>
+              <Button
+                fullWidth
+                variant="contained"
+                onClick={handleImportFromPhone}
+                startIcon={<Contacts />}
+                sx={{
+                  mb: 2,
+                  height: 48,
+                  borderRadius: 3,
+                  bgcolor: "secondary.main",
+                  "&:hover": { bgcolor: "secondary.dark" },
+                }}
+              >
+                وارد کردن مخاطبین از گوشی
+              </Button>
 
-            {selectedContacts.length > 0 && (
-              <Box sx={{ p: 2 }}>
+              <input
+                type="file"
+                accept=".vcf,.vcard"
+                onChange={handleVCardImport}
+                style={{ display: "none" }}
+                id="vcard-import"
+              />
+              <label htmlFor="vcard-import">
                 <Button
+                  component="span"
                   fullWidth
-                  variant="contained"
-                  onClick={handleImportContacts}
+                  variant="outlined"
+                  startIcon={<Contacts />}
                   sx={{
-                    bgcolor: "secondary.main",
-                    "&:hover": { bgcolor: "secondary.dark" },
                     height: 48,
                     borderRadius: 3,
                   }}
                 >
-                  افزودن {selectedContacts.length} مخاطب
+                  وارد کردن از فایل مخاطبین (vCard)
                 </Button>
-              </Box>
-            )}
+              </label>
+            </Box>
+
+            <Divider />
           </Paper>
         )}
       </Box>

@@ -50,16 +50,6 @@ const CenterFabContainer = styled("div")({
   justifyContent: "center",
 });
 
-const ActiveIndicator = styled("div")(({ theme }) => ({
-  position: "absolute",
-  top: -8,
-  width: "4px",
-  height: "4px",
-  borderRadius: "50%",
-  backgroundColor: theme.palette.primary.main,
-  transition: "all 0.3s ease",
-}));
-
 function NavButton() {
   const theme = useTheme();
   const location = useLocation();
@@ -86,7 +76,6 @@ function NavButton() {
               to="/main"
               icon={
                 <>
-                  {isActive("/main") && <ActiveIndicator />}
                   <HomeIcon
                     sx={{
                       color: isActive("/main")
@@ -112,7 +101,6 @@ function NavButton() {
               to="/calendar"
               icon={
                 <>
-                  {isActive("/calendar") && <ActiveIndicator />}
                   <CalendarIcon
                     sx={{
                       color: isActive("/calendar")
@@ -159,7 +147,6 @@ function NavButton() {
               to="/search"
               icon={
                 <>
-                  {isActive("/search") && <ActiveIndicator />}
                   <SearchIcon
                     sx={{
                       color: isActive("/search")
@@ -185,7 +172,6 @@ function NavButton() {
               to="/settings"
               icon={
                 <>
-                  {isActive("/settings") && <ActiveIndicator />}
                   <SettingsIcon
                     sx={{
                       color: isActive("/settings")
