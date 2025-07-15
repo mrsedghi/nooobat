@@ -14,6 +14,8 @@ import {
   Divider,
   Chip,
   ListItemIcon,
+  Alert,
+  Snackbar,
 } from "@mui/material";
 import {
   PersonAdd,
@@ -33,12 +35,14 @@ const AddCustomer = () => {
   const [manualForm, setManualForm] = useState({ name: "", phone: "" });
   const [excelFile, setExcelFile] = useState(null);
   const [selectedContacts, setSelectedContacts] = useState([]);
-  const [contacts, setContacts] = useState([
-    { id: 1, name: "علی محمدی", phone: "09123456789" },
-    { id: 2, name: "فاطمه رضایی", phone: "09129876543" },
-    { id: 3, name: "محمد کریمی", phone: "09151112233" },
-    { id: 4, name: "زهرا احمدی", phone: "09153334455" },
-  ]);
+  const [contacts, setContacts] = useState([]);
+  const [alert, setAlert] = useState({
+    open: false,
+    message: "",
+    severity: "success",
+  });
+  const [showImportedContacts, setShowImportedContacts] = useState(false);
+  const [recentlyImportedContacts, setRecentlyImportedContacts] = useState([]);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -52,7 +56,11 @@ const AddCustomer = () => {
   const handleManualSubmit = (e) => {
     e.preventDefault();
     console.log("Adding customer:", manualForm);
-    // Add your API call here
+    setAlert({
+      open: true,
+      message: "مشتری با موفقیت اضافه شد",
+      severity: "success",
+    });
     setManualForm({ name: "", phone: "" });
   };
 
@@ -60,8 +68,11 @@ const AddCustomer = () => {
     const file = e.target.files[0];
     if (file) {
       setExcelFile(file);
-      // Here you would parse the Excel file
-      console.log("Excel file uploaded:", file.name);
+      setAlert({
+        open: true,
+        message: "فایل اکسل با موفقیت آپلود شد",
+        severity: "success",
+      });
     }
   };
 
@@ -75,13 +86,16 @@ const AddCustomer = () => {
 
   const handleImportContacts = () => {
     console.log("Importing contacts:", selectedContacts);
-    // Add your API call here
+    setAlert({
+      open: true,
+      message: `${selectedContacts.length} مخاطب با موفقیت وارد شد`,
+      severity: "success",
+    });
     setSelectedContacts([]);
   };
 
   const handleImportFromPhone = useCallback(async () => {
     try {
-      // Check if the Contacts API is available
       if ("contacts" in navigator && "ContactsManager" in window) {
         const props = ["name", "tel"];
         const opts = { multiple: true };
@@ -96,17 +110,29 @@ const AddCustomer = () => {
           }));
 
           setContacts((prev) => [...formattedContacts, ...prev]);
-          alert(`تعداد ${formattedContacts.length} مخاطب با موفقیت وارد شد`);
+          setRecentlyImportedContacts(formattedContacts);
+          setShowImportedContacts(true);
+          setAlert({
+            open: true,
+            message: `تعداد ${formattedContacts.length} مخاطب با موفقیت وارد شد`,
+            severity: "success",
+          });
         }
       } else {
-        // Fallback for browsers that don't support the Contacts API
-        alert(
-          "وارد کردن مخاطبین در این مرورگر پشتیبانی نمی‌شود. لطفاً از مرورگر دیگری استفاده کنید."
-        );
+        setAlert({
+          open: true,
+          message:
+            "وارد کردن مخاطبین در این مرورگر پشتیبانی نمی‌شود. لطفاً از مرورگر دیگری استفاده کنید.",
+          severity: "error",
+        });
       }
     } catch (error) {
       console.error("Error accessing contacts:", error);
-      alert("خطا در دسترسی به مخاطبین. لطفاً مجوزهای لازم را بررسی کنید.");
+      setAlert({
+        open: true,
+        message: "خطا در دسترسی به مخاطبین. لطفاً مجوزهای لازم را بررسی کنید.",
+        severity: "error",
+      });
     }
   }, []);
 
@@ -117,11 +143,21 @@ const AddCustomer = () => {
     const reader = new FileReader();
     reader.onload = (e) => {
       const vCardData = e.target.result;
-      // In a real app, you would parse the vCard data here
-      console.log("vCard data:", vCardData);
-      alert("فایل مخاطبین دریافت شد. در نسخه‌های بعدی پشتیبانی خواهد شد.");
+      setAlert({
+        open: true,
+        message: "فایل مخاطبین دریافت شد. در نسخه‌های بعدی پشتیبانی خواهد شد.",
+        severity: "info",
+      });
     };
     reader.readAsText(file);
+  };
+
+  const handleCloseAlert = () => {
+    setAlert({ ...alert, open: false });
+  };
+
+  const handleCloseImportedContacts = () => {
+    setShowImportedContacts(false);
   };
 
   return (
@@ -143,8 +179,9 @@ const AddCustomer = () => {
           color: "primary.contrastText",
           display: "flex",
           alignItems: "center",
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
           boxShadow: 3,
         }}
       >
@@ -344,12 +381,70 @@ const AddCustomer = () => {
             </Box>
 
             <Divider />
+
+            {showImportedContacts && recentlyImportedContacts.length > 0 && (
+              <Box sx={{ p: 2 }}>
+                <Typography variant="subtitle1" sx={{ mb: 2 }}>
+                  مخاطبین وارد شده:
+                </Typography>
+                <List>
+                  {recentlyImportedContacts.map((contact) => (
+                    <ListItem key={contact.id}>
+                      <ListItemIcon>
+                        <Avatar sx={{ bgcolor: "primary.main" }}>
+                          <Person />
+                        </Avatar>
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={contact.name}
+                        secondary={contact.phone}
+                      />
+                      <IconButton
+                        edge="end"
+                        onClick={() => handleContactSelect(contact)}
+                      >
+                        {selectedContacts.some((c) => c.id === contact.id) ? (
+                          <Check color="primary" />
+                        ) : (
+                          <PersonAdd color="action" />
+                        )}
+                      </IconButton>
+                    </ListItem>
+                  ))}
+                </List>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={handleImportContacts}
+                  disabled={selectedContacts.length === 0}
+                  sx={{ mt: 2, height: 48, borderRadius: 3 }}
+                >
+                  افزودن {selectedContacts.length} مخاطب انتخاب شده
+                </Button>
+              </Box>
+            )}
           </Paper>
         )}
       </Box>
 
       {/* Bottom Navigation */}
       <NavButton />
+
+      {/* Alert Snackbar */}
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alert.severity}
+          sx={{ width: "100%" }}
+        >
+          {alert.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

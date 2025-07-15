@@ -57,10 +57,10 @@ function Home() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
           boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
-          position: "relative",
         }}
       >
         {/* Profile */}

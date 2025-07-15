@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+// src/pages/Settings.jsx
 import {
   Box,
   Typography,
@@ -9,10 +9,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Switch,
   Divider,
   IconButton,
-  ButtonGroup,
   Button,
   Snackbar,
   Alert,
@@ -29,46 +27,16 @@ import {
   BrightnessAuto,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavButton from "../components/NavButton";
+import { useThemeContext } from "../contexts/ThemeContext";
 
 const Settings = () => {
-  const getSystemTheme = () =>
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-
-  const getStoredMode = () => localStorage.getItem("theme") || "auto";
+  const { mode, changeMode } = useThemeContext();
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success"); // "success", "error", etc.
-
-  const [mode, setMode] = useState(getStoredMode());
-  const [activeSessions] = useState([
-    {
-      id: 1,
-      device: "iPhone 13",
-      location: "Tehran, Iran",
-      lastActive: "2 hours ago",
-    },
-    {
-      id: 2,
-      device: "MacBook Pro",
-      location: "Tehran, Iran",
-      lastActive: "5 minutes ago",
-    },
-  ]);
-
-  useEffect(() => {
-    localStorage.setItem("theme", mode);
-  }, [mode]);
-
-  const handleModeChange = (newMode) => {
-    setMode(newMode);
-    localStorage.setItem("theme", newMode);
-    window.location.reload(); // Reload app to reapply theme
-  };
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const handleClearCache = async () => {
     try {
@@ -122,28 +90,22 @@ const Settings = () => {
           color: "primary.contrastText",
           display: "flex",
           alignItems: "center",
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
+          position: "sticky",
+          top: 0,
+          zIndex: 10,
           boxShadow: 3,
         }}
       >
-        <IconButton
-          component={Link}
-          to="/main"
-          sx={{ color: "primary.contrastText" }}
-        >
+        <IconButton component={Link} to="/main" sx={{ color: "inherit" }}>
           <ChevronLeft fontSize="medium" />
         </IconButton>
-        <Typography
-          variant="h6"
-          sx={{ flexGrow: 1, textAlign: "center", fontWeight: "bold" }}
-        >
+        <Typography variant="h6" sx={{ flexGrow: 1, textAlign: "center" }}>
           تنظیمات
         </Typography>
         <Box sx={{ width: 40 }} />
       </Box>
 
-      {/* Profile */}
+      {/* Profile Section */}
       <Paper
         sx={{
           m: 2,
@@ -153,19 +115,12 @@ const Settings = () => {
           boxShadow: "0px 4px 12px rgba(0,0,0,0.08)",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Avatar
-            sx={{
-              width: 64,
-              height: 64,
-              bgcolor: "secondary.main",
-              fontWeight: "bold",
-            }}
-          >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <Avatar sx={{ width: 64, height: 64, bgcolor: "secondary.main" }}>
             M
           </Avatar>
-          <Box sx={{ flexGrow: 1, ml: 2 }}>
-            <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Typography variant="subtitle1" fontWeight="bold">
               محمد رضایی
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -188,19 +143,19 @@ const Settings = () => {
         </Box>
       </Paper>
 
-      {/* Settings */}
+      {/* Settings List */}
       <List sx={{ px: 2 }}>
         {/* Theme Mode */}
         <ListItem
           sx={{
-            bgcolor: "background.paper",
-            boxShadow: "0px 2px 8px rgba(0,0,0,0.05)",
-            mb: 1,
             flexDirection: "column",
             alignItems: "flex-start",
             borderRadius: 3,
+            bgcolor: "background.paper",
+            mb: 1,
             px: 2,
             py: 2,
+            boxShadow: "0px 2px 8px rgba(0,0,0,0.05)",
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center", width: "100%" }}>
@@ -219,59 +174,32 @@ const Settings = () => {
             />
           </Box>
 
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              width: "100%",
-              mt: 2,
-            }}
-          >
-            <Button
-              onClick={() => handleModeChange("light")}
-              variant={mode === "light" ? "contained" : "outlined"}
-              startIcon={<LightMode />}
-              sx={{
-                flex: 1,
-                mx: 0.5,
-                borderRadius: 2,
-                gap: "1rem",
-                textTransform: "none",
-                fontWeight: mode === "light" ? "bold" : "normal",
-              }}
-            >
-              روشن
-            </Button>
-            <Button
-              onClick={() => handleModeChange("dark")}
-              variant={mode === "dark" ? "contained" : "outlined"}
-              startIcon={<DarkMode />}
-              sx={{
-                flex: 1,
-                mx: 0.5,
-                gap: "1rem",
-                borderRadius: 2,
-                textTransform: "none",
-                fontWeight: mode === "dark" ? "bold" : "normal",
-              }}
-            >
-              تاریک
-            </Button>
-            <Button
-              onClick={() => handleModeChange("auto")}
-              variant={mode === "auto" ? "contained" : "outlined"}
-              startIcon={<BrightnessAuto />}
-              sx={{
-                flex: 1,
-                mx: 0.5,
-                gap: "1rem",
-                borderRadius: 2,
-                textTransform: "none",
-                fontWeight: mode === "auto" ? "bold" : "normal",
-              }}
-            >
-              خودکار
-            </Button>
+          <Box sx={{ display: "flex", gap: 1, mt: 2, width: "100%" }}>
+            {["light", "dark", "auto"].map((m) => (
+              <Button
+                key={m}
+                onClick={() => changeMode(m)}
+                variant={mode === m ? "contained" : "outlined"}
+                startIcon={
+                  m === "light" ? (
+                    <LightMode />
+                  ) : m === "dark" ? (
+                    <DarkMode />
+                  ) : (
+                    <BrightnessAuto />
+                  )
+                }
+                sx={{
+                  flex: 1,
+                  borderRadius: 2,
+                  gap: "0.5rem",
+                  textTransform: "none",
+                  fontWeight: mode === m ? "bold" : "normal",
+                }}
+              >
+                {m === "light" ? "روشن" : m === "dark" ? "تاریک" : "خودکار"}
+              </Button>
+            ))}
           </Box>
         </ListItem>
 
@@ -292,7 +220,7 @@ const Settings = () => {
           </ListItemIcon>
           <ListItemText
             primary="دستگاه‌های متصل"
-            secondary={`${activeSessions.length} دستگاه`}
+            secondary="2 دستگاه"
             primaryTypographyProps={{ fontWeight: "medium" }}
             secondaryTypographyProps={{ color: "text.secondary" }}
           />
@@ -307,7 +235,6 @@ const Settings = () => {
             bgcolor: "background.paper",
             boxShadow: "0px 2px 8px rgba(0,0,0,0.05)",
             mb: 1,
-            cursor: "pointer",
           }}
         >
           <ListItemIcon>
@@ -352,33 +279,19 @@ const Settings = () => {
             px: 2,
             py: 1.5,
             color: "#fff",
-            bgcolor: "#d32f2f", // soft red background
-            boxShadow: "0px 2px 8px rgba(0,0,0,0.05)",
-            transition: "all 0.3s ease",
-            cursor: "pointer",
+            bgcolor: "#d32f2f",
             "&:hover": {
               bgcolor: "#b71c1c",
               transform: "translateY(-2px)",
-              boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
-              "& .MuiListItemText-primary": {
-                color: "#fff",
-              },
-              "& .MuiSvgIcon-root": {
-                color: "#fff",
-              },
             },
           }}
         >
-          <ListItemIcon sx={{ minWidth: 40 }}>
-            <Logout sx={{ color: "#fff" }} />
+          <ListItemIcon sx={{ color: "#fff", minWidth: 40 }}>
+            <Logout />
           </ListItemIcon>
           <ListItemText
             primary="خروج از حساب"
-            primaryTypographyProps={{
-              fontWeight: "bold",
-              color: "#fff",
-              textAlign: "right",
-            }}
+            primaryTypographyProps={{ fontWeight: "bold", color: "#fff" }}
           />
         </ListItem>
       </List>

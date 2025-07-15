@@ -206,8 +206,7 @@ function SearchCustomers() {
           position: "sticky",
           top: 0,
           zIndex: 10,
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
+
           boxShadow: 3,
         }}
       >
@@ -379,7 +378,6 @@ function SearchCustomers() {
           size="small"
           sx={{
             bgcolor: "primary.light",
-            color: "primary.main",
             fontWeight: "bold",
           }}
         />
@@ -388,7 +386,6 @@ function SearchCustomers() {
           size="small"
           sx={{
             bgcolor: "primary.light",
-            color: "primary.main",
             fontWeight: "bold",
           }}
         />

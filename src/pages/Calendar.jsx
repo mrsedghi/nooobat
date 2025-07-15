@@ -105,71 +105,74 @@ const Calendar = () => {
       }}
     >
       {/* Calendar Header */}
-      <Box
-        sx={{
-          p: 2,
-          bgcolor: "primary.main",
-          color: "primary.contrastText",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottomLeftRadius: 16,
-          borderBottomRightRadius: 16,
-          boxShadow: 3,
-        }}
-      >
-        <IconButton onClick={() => changeDate(-1)} sx={{ color: "#fff" }}>
-          <ChevronLeft fontSize="medium" />
-        </IconButton>
+      <Box sx={{ position: "sticky", top: 0, zIndex: 10 }}>
+        <Box
+          sx={{
+            p: 2,
+            bgcolor: "primary.main",
+            color: "primary.contrastText",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            position: "sticky",
+            top: 0,
+            zIndex: 10,
+            boxShadow: 3,
+          }}
+        >
+          <IconButton onClick={() => changeDate(-1)} sx={{ color: "#fff" }}>
+            <ChevronLeft fontSize="medium" />
+          </IconButton>
 
-        <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h6" sx={{ fontWeight: "bold", color: "#fff" }}>
-            {formatPersianDate(currentDate)}
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#fff" }}>
-            تقویم نوبت‌ها
-          </Typography>
-        </Box>
-
-        <IconButton onClick={() => changeDate(1)} sx={{ color: "#fff" }}>
-          <ChevronRight fontSize="medium" />
-        </IconButton>
-      </Box>
-
-      {/* Week Navigation */}
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          p: 2,
-          borderBottom: "1px solid",
-          borderColor: "divider",
-        }}
-      >
-        {persianDays.map((day, index) => (
-          <Box key={day} sx={{ textAlign: "center" }}>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: index === 3 ? "bold" : "normal",
-                color: index === 3 ? "primary.main" : "text.primary",
-              }}
-            >
-              {day}
+          <Box sx={{ textAlign: "center" }}>
+            <Typography variant="h6" sx={{ fontWeight: "bold", color: "#fff" }}>
+              {formatPersianDate(currentDate)}
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontWeight: index === 3 ? "bold" : "normal",
-                color: index === 3 ? "primary.main" : "text.primary",
-              }}
-            >
-              {15 + index - 3} {/* Example dates */}
+            <Typography variant="body2" sx={{ color: "#fff" }}>
+              تقویم نوبت‌ها
             </Typography>
           </Box>
-        ))}
-      </Box>
 
+          <IconButton onClick={() => changeDate(1)} sx={{ color: "#fff" }}>
+            <ChevronRight fontSize="medium" />
+          </IconButton>
+        </Box>
+
+        {/* Week Navigation */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            p: 2,
+            bgcolor: "background.default",
+            borderBottom: "1px solid",
+            borderColor: "divider",
+          }}
+        >
+          {persianDays.map((day, index) => (
+            <Box key={day} sx={{ textAlign: "center" }}>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: index === 3 ? "bold" : "normal",
+                  color: index === 3 ? "primary.main" : "text.primary",
+                }}
+              >
+                {day}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: index === 3 ? "bold" : "normal",
+                  color: index === 3 ? "primary.main" : "text.primary",
+                }}
+              >
+                {15 + index - 3} {/* Example dates */}
+              </Typography>
+            </Box>
+          ))}
+        </Box>
+      </Box>
       {/* Today's Visits */}
       <Box sx={{ px: 2, mt: 3 }}>
         <Typography
