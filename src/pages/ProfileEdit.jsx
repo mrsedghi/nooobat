@@ -216,8 +216,7 @@ const ProfileEdit = () => {
             color: "primary.contrastText",
             display: "flex",
             alignItems: "center",
-            borderBottomLeftRadius: 16,
-            borderBottomRightRadius: 16,
+
             boxShadow: 3,
           }}
         >

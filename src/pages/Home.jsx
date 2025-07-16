@@ -15,8 +15,13 @@ import {
   Sms,
   People,
   CalendarToday,
-  School,
-  Support,
+  // New specific icons for Support & Learning
+  SentimentSatisfiedAlt, // For رضایت سنجی (Customer Satisfaction)
+  Redo, // For بازگشت مشتری (Customer Return)
+  Restore, // For یادآوری ترمیم (Recall Reminder)
+  Celebration, // For تبریک تولد (Birthday Wishes)
+  HelpOutline, // For راهنمای اپ (App Guide)
+  SupportAgent, // For پشتیبانی (Support)
   ChevronLeft,
 } from "@mui/icons-material";
 import "swiper/css";
@@ -61,6 +66,7 @@ function Home() {
           justifyContent: "space-between",
           alignItems: "center",
           position: "sticky",
+
           top: 0,
           zIndex: 10,
           boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
@@ -232,7 +238,7 @@ function Home() {
       </Box>
 
       {/* Buy SMS Package - Enhanced */}
-      <Box sx={{ mt: 3, px: 2 }}>
+      <Box dir="rtl" sx={{ mt: 3, px: 2 }}>
         <Paper
           sx={{
             p: 2,
@@ -265,74 +271,305 @@ function Home() {
       </Box>
 
       {/* Support & Learning - Enhanced */}
-      <Grid container spacing={2} sx={{ mt: 2, px: 2, mb: 3 }}>
-        <Grid item xs={6}>
-          <Paper
+      <Typography
+        variant="h6"
+        sx={{ px: 2, mb: 2, mt: 3, fontWeight: "bold", color: "text.primary" }}
+      >
+        پشتیبانی و آموزش
+      </Typography>
+
+      {/* Using Box with display: grid for more consistent sizing */}
+      <Box
+        sx={{
+          px: 2,
+          mb: 3,
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(110px, 1fr))",
+          gap: 2,
+        }}
+      >
+        {/* رضایت سنجی (Customer Satisfaction) */}
+        <Paper
+          sx={{
+            p: 2,
+            borderRadius: 3,
+            bgcolor: "background.paper",
+            textAlign: "center",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0.05)",
+            transition: "transform 0.3s, box-shadow 0.3s",
+            "&:hover": {
+              transform: "translateY(-5px)",
+              boxShadow: "0px 6px 16px rgba(0,0,0,0.1)",
+            },
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box
             sx={{
-              p: 2,
-              borderRadius: 3,
-              bgcolor: "background.paper",
-              textAlign: "center",
-              boxShadow: "0px 4px 12px rgba(0,0,0,0.05)",
-              transition: "transform 0.3s",
-              "&:hover": {
-                transform: "translateY(-5px)",
-              },
+              width: 48,
+              height: 48,
+              bgcolor: theme.palette.success.main,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 12px",
+              boxShadow: "0px 2px 8px rgba(0,0,0,0.15)",
             }}
           >
-            <Box
-              sx={{
-                width: 48,
-                height: 48,
-                bgcolor: "primary.light",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "0 auto 12px",
-              }}
-            >
-              <School sx={{ color: "#fff", fontSize: 24 }} />
-            </Box>
-            <Typography variant="subtitle2" fontWeight="medium">
-              راهنمای اپ
-            </Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={6}>
-          <Paper
+            <SentimentSatisfiedAlt sx={{ color: "white", fontSize: 28 }} />
+          </Box>
+          <Typography variant="subtitle2" fontWeight="medium" sx={{ mb: 1 }}>
+            رضایت سنجی
+          </Typography>
+        </Paper>
+
+        {/* بازگشت مشتری (Customer Return) - Coming Soon */}
+        <Paper
+          sx={{
+            p: 2,
+            borderRadius: 3,
+            bgcolor: "background.paper",
+            textAlign: "center",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0.05)",
+            transition: "transform 0.3s, box-shadow 0.3s",
+            "&:hover": {
+              transform: "translateY(-5px)",
+              boxShadow: "0px 6px 16px rgba(0,0,0,0.1)",
+            },
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+            opacity: 0.7,
+            cursor: "not-allowed",
+          }}
+        >
+          <Box
             sx={{
-              p: 2,
-              borderRadius: 3,
-              bgcolor: "background.paper",
-              textAlign: "center",
-              boxShadow: "0px 4px 12px rgba(0,0,0,0.05)",
-              transition: "transform 0.3s",
-              "&:hover": {
-                transform: "translateY(-5px)",
-              },
+              width: 48,
+              height: 48,
+              bgcolor: theme.palette.info.main,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 12px",
+              boxShadow: "0px 2px 8px rgba(0,0,0,0.15)",
             }}
           >
-            <Box
-              sx={{
-                width: 48,
-                height: 48,
-                bgcolor: "primary.light",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "0 auto 12px",
-              }}
-            >
-              <Support sx={{ color: "#fff", fontSize: 24 }} />
-            </Box>
-            <Typography variant="subtitle2" fontWeight="medium">
-              پشتیبانی
-            </Typography>
-          </Paper>
-        </Grid>
-      </Grid>
+            <Redo sx={{ color: "white", fontSize: 28 }} />
+          </Box>
+          <Typography variant="subtitle2" fontWeight="medium" sx={{ mb: 1 }}>
+            بازگشت مشتری
+          </Typography>
+          <Chip
+            label="به زودی"
+            size="small"
+            color="warning"
+            sx={{
+              fontWeight: "bold",
+              fontSize: "0.7rem",
+              height: 20,
+              borderRadius: 1,
+              px: 0.5,
+            }}
+          />
+        </Paper>
+
+        {/* یادآوری ترمیم (Recall Reminder) - Coming Soon */}
+        <Paper
+          sx={{
+            p: 2,
+            borderRadius: 3,
+            bgcolor: "background.paper",
+            textAlign: "center",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0.05)",
+            transition: "transform 0.3s, box-shadow 0.3s",
+            "&:hover": {
+              transform: "translateY(-5px)",
+              boxShadow: "0px 6px 16px rgba(0,0,0,0.1)",
+            },
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+            opacity: 0.7,
+            cursor: "not-allowed",
+          }}
+        >
+          <Box
+            sx={{
+              width: 48,
+              height: 48,
+              bgcolor: theme.palette.secondary.main,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 12px",
+              boxShadow: "0px 2px 8px rgba(0,0,0,0.15)",
+            }}
+          >
+            <Restore sx={{ color: "white", fontSize: 28 }} />
+          </Box>
+          <Typography variant="subtitle2" fontWeight="medium" sx={{ mb: 1 }}>
+            یادآوری ترمیم
+          </Typography>
+          <Chip
+            label="به زودی"
+            size="small"
+            color="warning"
+            sx={{
+              fontWeight: "bold",
+              fontSize: "0.7rem",
+              height: 20,
+              borderRadius: 1,
+              px: 0.5,
+            }}
+          />
+        </Paper>
+
+        {/* تبریک تولد (Birthday Wishes) - Coming Soon */}
+        <Paper
+          sx={{
+            p: 2,
+            borderRadius: 3,
+            bgcolor: "background.paper",
+            textAlign: "center",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0.05)",
+            transition: "transform 0.3s, box-shadow 0.3s",
+            "&:hover": {
+              transform: "translateY(-5px)",
+              boxShadow: "0px 6px 16px rgba(0,0,0,0.1)",
+            },
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+            opacity: 0.7,
+            cursor: "not-allowed",
+          }}
+        >
+          <Box
+            sx={{
+              width: 48,
+              height: 48,
+              bgcolor: theme.palette.warning.main,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 12px",
+              boxShadow: "0px 2px 8px rgba(0,0,0,0.15)",
+            }}
+          >
+            <Celebration sx={{ color: "white", fontSize: 28 }} />
+          </Box>
+          <Typography variant="subtitle2" fontWeight="medium" sx={{ mb: 1 }}>
+            تبریک تولد
+          </Typography>
+          <Chip
+            label="به زودی"
+            size="small"
+            color="warning"
+            sx={{
+              fontWeight: "bold",
+              fontSize: "0.7rem",
+              height: 20,
+              borderRadius: 1,
+              px: 0.5,
+            }}
+          />
+        </Paper>
+
+        {/* راهنمای اپ (App Guide) */}
+        <Paper
+          sx={{
+            p: 2,
+            borderRadius: 3,
+            bgcolor: "background.paper",
+            textAlign: "center",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0.05)",
+            transition: "transform 0.3s, box-shadow 0.3s",
+            "&:hover": {
+              transform: "translateY(-5px)",
+              boxShadow: "0px 6px 16px rgba(0,0,0,0.1)",
+            },
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: 48,
+              height: 48,
+              bgcolor: theme.palette.primary.main,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 12px",
+              boxShadow: "0px 2px 8px rgba(0,0,0,0.15)",
+            }}
+          >
+            <HelpOutline sx={{ color: "white", fontSize: 28 }} />
+          </Box>
+          <Typography variant="subtitle2" fontWeight="medium" sx={{ mb: 1 }}>
+            آموزش
+          </Typography>
+        </Paper>
+
+        {/* پشتیبانی (Support) */}
+        <Paper
+          sx={{
+            p: 2,
+            borderRadius: 3,
+            bgcolor: "background.paper",
+            textAlign: "center",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0.05)",
+            transition: "transform 0.3s, box-shadow 0.3s",
+            "&:hover": {
+              transform: "translateY(-5px)",
+              boxShadow: "0px 6px 16px rgba(0,0,0,0.1)",
+            },
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              width: 48,
+              height: 48,
+              bgcolor: theme.palette.info.main,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              margin: "0 auto 12px",
+              boxShadow: "0px 2px 8px rgba(0,0,0,0.15)",
+            }}
+          >
+            <SupportAgent sx={{ color: "white", fontSize: 28 }} />
+          </Box>
+          <Typography variant="subtitle2" fontWeight="medium" sx={{ mb: 1 }}>
+            پشتیبانی
+          </Typography>
+        </Paper>
+      </Box>
 
       {/* Bottom Navigation */}
       <NavButton />
