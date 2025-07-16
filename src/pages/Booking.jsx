@@ -172,7 +172,7 @@ const BookingPage = () => {
         </Box>
 
         {/* Main Content */}
-        <Box sx={{ p: 2 }}>
+        <Box dir="rtl" sx={{ p: 2 }}>
           {/* Customer Selection */}
           <Paper
             sx={{ p: 2, borderRadius: 3, mb: 2, bgcolor: "background.paper" }}
@@ -372,6 +372,7 @@ const BookingPage = () => {
               }}
             >
               <DatePicker
+                label="تاریخ"
                 value={bookingDate}
                 onChange={(newValue) => setBookingDate(newValue)}
                 renderInput={(params) => (
@@ -407,6 +408,7 @@ const BookingPage = () => {
               />
 
               <TimePicker
+                label="ساعت"
                 value={bookingTime}
                 onChange={(newValue) => {
                   setBookingTime(newValue);

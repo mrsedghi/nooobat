@@ -202,7 +202,10 @@ const AddCustomer = () => {
       </Box>
 
       {/* Tabs */}
-      <Paper sx={{ mx: 2, mt: 2, borderRadius: 3, overflow: "hidden" }}>
+      <Paper
+        dir="rtl"
+        sx={{ mx: 2, mt: 2, borderRadius: 3, overflow: "hidden" }}
+      >
         <Tabs
           value={activeTab}
           onChange={handleTabChange}

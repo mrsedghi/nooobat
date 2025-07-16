@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Settings from "./pages/Setting";
 import AddCustomer from "./pages/AddCustomer";
 import BookingPage from "./pages/Booking";
+import ProfileEdit from "./pages/ProfileEdit";
 
 const routes = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const routes = createBrowserRouter([
   {
     path: "/add-booking",
     element: <BookingPage />,
+  },
+  {
+    path: "/edit-profile",
+    element: <ProfileEdit />,
   },
 ]);
 

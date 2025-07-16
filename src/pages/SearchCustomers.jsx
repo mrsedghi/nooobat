@@ -326,6 +326,7 @@ function SearchCustomers() {
           }}
         >
           <TextField
+            dir="rtl"
             fullWidth
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
