@@ -8,6 +8,9 @@ import { RouterProvider } from "react-router-dom";
 import routes from "./routes";
 import { lightTheme, darkTheme } from "./themeConfig";
 import { ThemeProviderContext, useThemeContext } from "./contexts/ThemeContext";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 
 // RTL cache for Emotion
 const cacheRtl = createCache({
@@ -20,10 +23,14 @@ function ThemedApp() {
 
   return (
     <CacheProvider value={cacheRtl}>
-      <ThemeProvider theme={effectiveMode === "light" ? lightTheme : darkTheme}>
-        <CssBaseline />
-        <RouterProvider router={routes} />
-      </ThemeProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
+        <ThemeProvider
+          theme={effectiveMode === "light" ? lightTheme : darkTheme}
+        >
+          <CssBaseline />
+          <RouterProvider router={routes} />
+        </ThemeProvider>
+      </LocalizationProvider>
     </CacheProvider>
   );
 }

@@ -6,92 +6,100 @@ import {
   IconButton,
   Avatar,
   Chip,
-  Fab,
   Divider,
 } from "@mui/material";
 import {
   ChevronLeft,
   ChevronRight,
-  Add,
   Event,
   AccessTime,
-  Person,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import NavButton from "../components/NavButton";
+import moment from "moment-jalaali";
 
 const Calendar = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  // Initialize with current Jalali date
+  const [currentDate, setCurrentDate] = useState(moment());
 
-  // Initialize state properly
+  // Sample data with customer IDs
   const [bookedVisits, setBookedVisits] = useState([
     {
       id: 1,
+      customerId: "1",
       customerName: "محمد رضایی",
       service: "کوتاهی مو",
-      date: "1402/05/15",
+      date: moment().format("jYYYY/jMM/jDD"),
       time: "10:00 - 11:00",
       status: "تایید شده",
       avatarColor: "secondary.main",
     },
     {
       id: 2,
+      customerId: "2",
       customerName: "فاطمه محمدی",
       service: "رنگ مو",
-      date: "1402/05/15",
+      date: moment().format("jYYYY/jMM/jDD"),
       time: "14:00 - 16:00",
       status: "در انتظار",
       avatarColor: "primary.main",
     },
     {
       id: 3,
+      customerId: "3",
       customerName: "علی کریمی",
       service: "هایلایت",
-      date: "1402/05/16",
+      date: moment().add(1, "days").format("jYYYY/jMM/jDD"),
       time: "11:00 - 14:00",
       status: "تایید شده",
       avatarColor: "secondary.main",
     },
   ]);
 
-  // Create new arrays when filtering to avoid mutation
+  // Filter visits for today and tomorrow
   const todayVisits = bookedVisits.filter(
-    (visit) => visit.date === "1402/05/15" // In real app, use current date
+    (visit) => visit.date === moment().format("jYYYY/jMM/jDD")
   );
 
   const tomorrowVisits = bookedVisits.filter(
-    (visit) => visit.date === "1402/05/16" // In real app, use current date + 1
+    (visit) => visit.date === moment().add(1, "days").format("jYYYY/jMM/jDD")
   );
 
-  // Safe date formatting
+  // Date navigation functions
+  const prevDay = () => {
+    setCurrentDate(moment(currentDate).subtract(1, "days"));
+  };
+
+  const nextDay = () => {
+    setCurrentDate(moment(currentDate).add(1, "days"));
+  };
+
+  // Format date in Persian
   const formatPersianDate = (date) => {
-    // In production, use a library like moment-jalaali
-    const options = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    return new Intl.DateTimeFormat("fa-IR", options).format(date);
+    return date.format("jD jMMMM jYYYY");
   };
 
-  // Safe date navigation
-  const changeDate = (days) => {
-    const newDate = new Date(currentDate);
-    newDate.setDate(newDate.getDate() + days);
-    setCurrentDate(newDate);
+  // Get day name in Persian
+  const getPersianDayName = (date) => {
+    const days = [
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه",
+      "پنجشنبه",
+      "جمعه",
+    ];
+    return days[date.day()];
   };
 
-  // Days of week in Persian
-  const persianDays = [
-    "شنبه",
-    "یکشنبه",
-    "دوشنبه",
-    "سه‌شنبه",
-    "چهارشنبه",
-    "پنجشنبه",
-    "جمعه",
-  ];
+  // Generate week dates for the week navigation
+  const getWeekDates = () => {
+    const startOfWeek = moment(currentDate).startOf("week");
+    return Array.from({ length: 7 }).map((_, i) =>
+      moment(startOfWeek).add(i, "days")
+    );
+  };
 
   return (
     <Box
@@ -114,13 +122,10 @@ const Calendar = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            position: "sticky",
-            top: 0,
-            zIndex: 10,
             boxShadow: 3,
           }}
         >
-          <IconButton onClick={() => changeDate(-1)} sx={{ color: "#fff" }}>
+          <IconButton onClick={prevDay} sx={{ color: "#fff" }}>
             <ChevronLeft fontSize="medium" />
           </IconButton>
 
@@ -129,11 +134,11 @@ const Calendar = () => {
               {formatPersianDate(currentDate)}
             </Typography>
             <Typography variant="body2" sx={{ color: "#fff" }}>
-              تقویم نوبت‌ها
+              {getPersianDayName(currentDate)} - تقویم نوبت‌ها
             </Typography>
           </Box>
 
-          <IconButton onClick={() => changeDate(1)} sx={{ color: "#fff" }}>
+          <IconButton onClick={nextDay} sx={{ color: "#fff" }}>
             <ChevronRight fontSize="medium" />
           </IconButton>
         </Box>
@@ -149,30 +154,40 @@ const Calendar = () => {
             borderColor: "divider",
           }}
         >
-          {persianDays.map((day, index) => (
-            <Box key={day} sx={{ textAlign: "center" }}>
+          {getWeekDates().map((date) => (
+            <Box key={date.format("jYYYYjMMjDD")} sx={{ textAlign: "center" }}>
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: index === 3 ? "bold" : "normal",
-                  color: index === 3 ? "primary.main" : "text.primary",
+                  fontSize: "0.8rem",
+                  fontWeight: date.isSame(currentDate, "day")
+                    ? "bold"
+                    : "normal",
+                  color: date.isSame(currentDate, "day")
+                    ? "primary.main"
+                    : "text.primary",
                 }}
               >
-                {day}
+                {getPersianDayName(date)}
               </Typography>
               <Typography
                 variant="body2"
                 sx={{
-                  fontWeight: index === 3 ? "bold" : "normal",
-                  color: index === 3 ? "primary.main" : "text.primary",
+                  fontWeight: date.isSame(currentDate, "day")
+                    ? "bold"
+                    : "normal",
+                  color: date.isSame(currentDate, "day")
+                    ? "primary.main"
+                    : "text.primary",
                 }}
               >
-                {15 + index - 3} {/* Example dates */}
+                {date.format("jD")}
               </Typography>
             </Box>
           ))}
         </Box>
       </Box>
+
       {/* Today's Visits */}
       <Box sx={{ px: 2, mt: 3 }}>
         <Typography
@@ -199,12 +214,18 @@ const Calendar = () => {
                 boxShadow: "0px 4px 12px rgba(0,0,0,0.08)",
                 p: 2,
                 transition: "transform 0.2s",
+                textDecoration: "none",
+                color: "inherit",
                 "&:hover": {
                   transform: "translateY(-2px)",
                 },
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <Box
+                component={Link}
+                to={`/customer/${visit.customerId}`}
+                sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
+              >
                 <Avatar
                   sx={{
                     bgcolor: visit.avatarColor,
@@ -291,13 +312,19 @@ const Calendar = () => {
                 p: 2,
                 opacity: 0.8,
                 transition: "transform 0.2s",
+                textDecoration: "none",
+                color: "inherit",
                 "&:hover": {
                   transform: "translateY(-2px)",
                   opacity: 1,
                 },
               }}
             >
-              <Box sx={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <Box
+                component={Link}
+                to={`/customer/${visit.customerId}`}
+                sx={{ display: "flex", alignItems: "center", gap: "1rem" }}
+              >
                 <Avatar
                   sx={{
                     bgcolor: visit.avatarColor,

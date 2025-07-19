@@ -144,12 +144,12 @@ function NavButton() {
           <Tooltip title="جست و جو" placement="top" arrow>
             <BottomNavigationAction
               component={Link}
-              to="/search"
+              to="/customers"
               icon={
                 <>
                   <SearchIcon
                     sx={{
-                      color: isActive("/search")
+                      color: isActive("/customers")
                         ? theme.palette.primary.main
                         : theme.palette.text.secondary,
                       transition: "color 0.3s ease",

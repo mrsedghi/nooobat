@@ -27,6 +27,7 @@ import {
 import "swiper/css";
 import "swiper/css/pagination";
 import NavButton from "../components/NavButton";
+import { Link } from "react-router-dom";
 
 function Home() {
   const theme = useTheme();
@@ -532,6 +533,8 @@ function Home() {
 
         {/* پشتیبانی (Support) */}
         <Paper
+          component={Link}
+          to={"/support"}
           sx={{
             p: 2,
             borderRadius: 3,

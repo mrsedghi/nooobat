@@ -2,13 +2,17 @@ import { createBrowserRouter } from "react-router-dom";
 import Splash from "./components/spalsh/Splash";
 import VerifyPhone from "./auth/VerifyPhone";
 import Login from "./auth/Login";
-import SearchCustomers from "./pages/SearchCustomers";
+
 import Calendar from "./pages/Calendar";
 import Home from "./pages/Home";
 import Settings from "./pages/Setting";
 import AddCustomer from "./pages/AddCustomer";
 import BookingPage from "./pages/Booking";
 import ProfileEdit from "./pages/ProfileEdit";
+import Support from "./pages/Support";
+import CustomerProfile from "./pages/CustomerProfile";
+import Customers from "./pages/Customers";
+import TempOne from "./perv/TempOne";
 
 const routes = createBrowserRouter([
   {
@@ -29,8 +33,8 @@ const routes = createBrowserRouter([
   },
 
   {
-    path: "/search",
-    element: <SearchCustomers />,
+    path: "/customers",
+    element: <Customers />,
   },
   {
     path: "/calendar",
@@ -51,6 +55,18 @@ const routes = createBrowserRouter([
   {
     path: "/edit-profile",
     element: <ProfileEdit />,
+  },
+  {
+    path: "/support",
+    element: <Support />,
+  },
+  {
+    path: "/customer/:customerId",
+    element: <CustomerProfile />,
+  },
+  {
+    path: "/temp1",
+    element: <TempOne />,
   },
 ]);
 
