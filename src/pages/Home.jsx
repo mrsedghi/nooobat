@@ -291,6 +291,8 @@ function Home() {
       >
         {/* رضایت سنجی (Customer Satisfaction) */}
         <Paper
+          component={Link}
+          to={"/temp1"}
           sx={{
             p: 2,
             borderRadius: 3,
